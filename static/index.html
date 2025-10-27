@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <script src="htmx.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="bulma-no-dark-mode.min.css">
+        <style>
+            html{
+                overflow-x: hidden;
+                overflow-y: hidden;
+            }
+        </style>
+        <script>
+            const gridCellHeight = 30; //pixels
+            const gridCellWidth = 30; //pixels
+
+            window.onload = function(){
+                console.log('loaded');
+                var gameGridDiv = document.getElementById('game-grid')
+                var gameGridHeight = window.innerHeight - document.getElementById('navbar').offsetHeight;
+                var gameGridWidth = window.innerWidth;
+                generateGrid(gameGridDiv, gameGridHeight, gameGridWidth)
+            }
+
+            window.onresize = function(){
+                //ToDO: regenerate grid size (nice to have: game keeps going)
+            }
+
+            function generateGrid(gameGridDiv, gameGridHeight, gameGridWidth){
+                var cellsVertically = Math.floor(gameGridHeight / gridCellHeight);
+                var cellsHorizontally = Math.floor(gameGridWidth / gridCellWidth);
+                var tableGrid = `<table style="height:${gameGridHeight}px;width:${gameGridWidth}px;">`;
+                for(let v = 0; v < cellsVertically; v++){
+                    tableGrid += '<tr>';
+                    for(let h = 0; h < cellsHorizontally; h++){
+                        tableGrid += `<td id="${v}_${h}" style="border:1px solid LightGrey"></td>`;
+                    }
+                    tableGrid += '</tr>';
+                }
+                tableGrid += '</table>'
+                gameGridDiv.innerHTML = tableGrid;
+            }
+        </script>
+    </head>
+    <body>
+        <!-- <form>
+            <input type="text" name="name">
+            <button hx-swap="afterend" hx-post="/gettext" hx-target="#res">Get Hello Message</button>
+        </form> -->
+        <nav id="navbar" class="navbar is-dark">
+            <div class="navbar-brand">
+                <div class="navbar-item">
+                    <p class="title has-text-success">Game of Life</p>
+                </div>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <div class="navbar-item">
+                        Click which cells should start out alive and press 
+                    </div>
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <div class="button is-info">
+                                START
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div id="game-grid" class="table-container m-0">
+        </div>
+    </body>
+</html>
