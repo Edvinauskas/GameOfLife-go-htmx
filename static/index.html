@@ -13,21 +13,27 @@
             const gridCellWidth = 30; //pixels
 
             window.onload = function(){
-                console.log('loaded');
-                var gameGridDiv = document.getElementById('game-grid')
-                var gameGridHeight = window.innerHeight - document.getElementById('navbar').offsetHeight;
-                var gameGridWidth = window.innerWidth;
-                generateGrid(gameGridDiv, gameGridHeight, gameGridWidth)
+                var grid = getGridSize('game-grid');
+                generateGrid(grid.div, grid.height, grid.width);
             }
 
             window.onresize = function(){
-                //ToDO: regenerate grid size (nice to have: game keeps going)
+                //ToDo: regenerate grid size (nice to have: game keeps going)
+                // var grid = getGridSize();
+                // generateGrid(grid.div, grid.height, grid.width);
             }
 
-            function generateGrid(gameGridDiv, gameGridHeight, gameGridWidth){
-                var cellsVertically = Math.floor(gameGridHeight / gridCellHeight);
-                var cellsHorizontally = Math.floor(gameGridWidth / gridCellWidth);
-                var tableGrid = `<table style="height:${gameGridHeight}px;width:${gameGridWidth}px;">`;
+            function getGridSize(gridDivId){
+                var div = document.getElementById(gridDivId);
+                var height = window.innerHeight - document.getElementById('navbar').offsetHeight;
+                var width = window.innerWidth;
+                return {'div':div, 'height':height, 'width':width};
+            }
+
+            function generateGrid(gridDiv, gridHeight, gridWidth){
+                var cellsVertically = Math.ceil(gridHeight / gridCellHeight);
+                var cellsHorizontally = Math.ceil(gridWidth / gridCellWidth);
+                var tableGrid = `<table style="height:${gridHeight}px;width:${gridWidth}px;">`;
                 for(let v = 0; v < cellsVertically; v++){
                     tableGrid += '<tr>';
                     for(let h = 0; h < cellsHorizontally; h++){
@@ -36,7 +42,7 @@
                     tableGrid += '</tr>';
                 }
                 tableGrid += '</table>'
-                gameGridDiv.innerHTML = tableGrid;
+                gridDiv.innerHTML = tableGrid;
             }
         </script>
     </head>
