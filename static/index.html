@@ -1,6 +1,7 @@
 <html>
     <head>
         <script src="htmx.min.js"></script>
+        <script src="htmx-ext-ws@2.0.4.js"></script>
         <link rel="stylesheet" type="text/css" href="bulma-no-dark-mode.min.css">
         <style>
             html{
@@ -29,7 +30,7 @@
                 var width = window.innerWidth;
                 return {'div':div, 'height':height, 'width':width};
             }
-
+ 
             function generateGrid(gridDiv, gridHeight, gridWidth){
                 var cellsVertically = Math.ceil(gridHeight / gridCellHeight);
                 var cellsHorizontally = Math.ceil(gridWidth / gridCellWidth);
@@ -46,11 +47,7 @@
             }
         </script>
     </head>
-    <body>
-        <!-- <form>
-            <input type="text" name="name">
-            <button hx-swap="afterend" hx-post="/gettext" hx-target="#res">Get Hello Message</button>
-        </form> -->
+    <body hx-ext="ws" ws-connect="/gameoflife">
         <nav id="navbar" class="navbar is-dark">
             <div class="navbar-brand">
                 <div class="navbar-item">
@@ -64,7 +61,7 @@
                     </div>
                     <div class="navbar-item">
                         <div class="buttons">
-                            <div class="button is-info">
+                            <div class="button is-info" ws-send hx-vals='{"testing":"testing"}'>
                                 START
                             </div>
                         </div>
