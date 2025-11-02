@@ -8,46 +8,23 @@
                 overflow-x: hidden;
                 overflow-y: hidden;
             }
+            .alive{
+                background-color: black;
+            }
+            .dead{
+                background-color: white;
+            }
+            .cell{
+                border:1px solid LightGrey;
+            }
         </style>
-        <script>
-            const gridCellHeight = 30; //pixels
-            const gridCellWidth = 30; //pixels
-
-            window.onload = function(){
-                var grid = getGridSize('game-grid');
-                generateGrid(grid.div, grid.height, grid.width);
-            }
-
-            window.onresize = function(){
-                //ToDo: regenerate grid size (nice to have: game keeps going)
-                // var grid = getGridSize();
-                // generateGrid(grid.div, grid.height, grid.width);
-            }
-
-            function getGridSize(gridDivId){
-                var div = document.getElementById(gridDivId);
-                var height = window.innerHeight - document.getElementById('navbar').offsetHeight;
-                var width = window.innerWidth;
-                return {'div':div, 'height':height, 'width':width};
-            }
- 
-            function generateGrid(gridDiv, gridHeight, gridWidth){
-                var cellsVertically = Math.ceil(gridHeight / gridCellHeight);
-                var cellsHorizontally = Math.ceil(gridWidth / gridCellWidth);
-                var tableGrid = `<table style="height:${gridHeight}px;width:${gridWidth}px;">`;
-                for(let v = 0; v < cellsVertically; v++){
-                    tableGrid += '<tr>';
-                    for(let h = 0; h < cellsHorizontally; h++){
-                        tableGrid += `<td id="${v}_${h}" style="border:1px solid LightGrey"></td>`;
-                    }
-                    tableGrid += '</tr>';
-                }
-                tableGrid += '</table>'
-                gridDiv.innerHTML = tableGrid;
-            }
-        </script>
     </head>
-    <body hx-ext="ws" ws-connect="/gameoflife">
+    <body 
+        hx-ext="ws" 
+        ws-connect="/gameoflife" 
+        ws-send 
+        hx-trigger="load"
+        hx-vals='js:{"event": "GenerateGrid", "screenWidth": window.innerWidth, "screenHeight": window.innerHeight - document.getElementById("navbar").offsetHeight}'>
         <nav id="navbar" class="navbar is-dark">
             <div class="navbar-brand">
                 <div class="navbar-item">
@@ -61,7 +38,7 @@
                     </div>
                     <div class="navbar-item">
                         <div class="buttons">
-                            <div class="button is-info" ws-send hx-vals='{"testing":"testing"}'>
+                            <div id="start-stop-button" class="button is-info" ws-send hx-vals='{"event":"Start"}'>
                                 START
                             </div>
                         </div>
@@ -69,7 +46,8 @@
                 </div>
             </div>
         </nav>
-        <div id="game-grid" class="table-container m-0">
+        <div id="game-grid-div" class="table-container m-0">
+            <table id="game-grid"></table>
         </div>
     </body>
 </html>
