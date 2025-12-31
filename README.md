@@ -9,9 +9,11 @@ To start the Go server, run the command below and go to localhost:3000:
 go run .
 ```
 
-The game grid is dynamically generated on load to fill your browser window.
+The game grid is dynamicßally generated on load to fill your browser window.
 
 Click any cell to make it 'Alive'. Once you're ready, click START to begin the simulation. You can pause at any time to add or remove cells, then click START to resume.
+
+![](static/game_of_life.gif)
 
 Honorable mentions: 
 
